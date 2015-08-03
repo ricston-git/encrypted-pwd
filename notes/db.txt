@@ -1,0 +1,9 @@
+create database contactsdb;
+
+mysql -u root -p contactsdb < db/schema.sql
+
+mysql -u root -p contactsdb < db/data.sql
+
+create user 'contactsuser'@'localhost' identified by 'contactspassword';
+
+grant all privileges on contactsdb.* to 'contactsuser'@'localhost';
