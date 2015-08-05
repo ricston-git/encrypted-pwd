@@ -1,5 +1,7 @@
 package com.ricston.encryptedpwd;
 
+import java.util.Properties;
+
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -9,8 +11,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class App {
 
 	private static final Logger LOG = LoggerFactory.getLogger(App.class);
@@ -27,6 +34,12 @@ public class App {
 	@Value("${db.password}")
 	private String dbPassword;
 
+	@Value("${email.username}")
+	private String emailUsername;
+
+	@Value("${email.password}")
+	private String emailPassword;
+
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -42,6 +55,26 @@ public class App {
 	@Bean
 	public ContactRepository msgRepo() {
 		return new MySQLContactRepository();
+	}
+	
+	@Bean
+	public JavaMailSender mailSender() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost("smtp.gmail.com");
+		mailSender.setPort(25);
+		mailSender.setUsername(emailUsername);
+		mailSender.setPassword(emailPassword);
+
+		Properties props = new Properties();
+		props.put("mail.smtp.starttls.enable", "true");
+		mailSender.setJavaMailProperties(props);
+		
+		return mailSender;
+	}
+	
+	@Bean
+	public SimpleMailMessage mailMessage() {
+		return new SimpleMailMessage();
 	}
 
 	public static void main(String[] args) throws Exception {

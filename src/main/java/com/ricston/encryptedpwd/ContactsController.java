@@ -20,4 +20,5 @@ public class ContactsController {
 			@RequestParam(value = "rowCount", required = false) Integer rowCount) {
 		return customerRepo.find(offset, rowCount);
 	}
+
 }
