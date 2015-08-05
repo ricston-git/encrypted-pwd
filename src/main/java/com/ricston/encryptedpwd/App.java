@@ -11,7 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -72,11 +71,6 @@ public class App {
 		return mailSender;
 	}
 	
-	@Bean
-	public SimpleMailMessage mailMessage() {
-		return new SimpleMailMessage();
-	}
-
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(App.class, args);
 	}

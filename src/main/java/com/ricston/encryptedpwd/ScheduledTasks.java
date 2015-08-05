@@ -27,9 +27,6 @@ public class ScheduledTasks {
 	@Autowired
 	JavaMailSender mailSender;
 
-	@Autowired
-	SimpleMailMessage mailMessage;
-
 	@Value("${email.to}")
 	private String toAddress;
 
@@ -55,7 +52,7 @@ public class ScheduledTasks {
 	}
 
 	private SimpleMailMessage dbConnectionLostMailMessage() {
-		SimpleMailMessage msg = new SimpleMailMessage(this.mailMessage);
+		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setSubject("Database connection lost");
 		msg.setTo(toAddress);
 		msg.setText("Houston, we have a problem");
